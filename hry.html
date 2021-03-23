@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+<!--双向绑定-->
+    <input type="text" v-model="a">
+    <input type="button" value="添加到留言板中" @click="addNote">
+
+    <ul>
+        <li v-for="(value, index) in notebook" :key="index">
+            <span>{{ value }}</span><a href="javascript:;" @click="delNote(index)">删除</a>
+        </li>
+    </ul>
+    <span v-show="notebook.length!=0">合计:{{ notebook.length }}条留言</span>
+    <input type="button" value="删除所有" @click="delAll" v-show="notebook.length!=0"></input>
+</div>
+
+
+
+<script src="js/vue.min.js"></script>
+
+<script>
+    new Vue({
+            el: "#app",
+            data: {
+                notebook: [],
+                //双向绑定
+                a: "",
+            },
+            methods: {
+                //添加
+                addNote() {
+                    // 只能获取到vue实例中的数据
+                    let a = this.a;
+                    // 判断是否为空 为空不可添加
+                    if (a) {
+                        // 添加到首行
+                        this.notebook.unshift(this.a);
+                        // 输入框清空
+                        this.a = "";
+                    }
+                },
+                //删除
+                delNote(index) {
+                    this.notebook.splice(index, 1)
+                },
+                //删所有
+                delAll(){
+                    this.notebook = [];
+                },
+            }
+        })
+</script>
+</body>
+</html>
